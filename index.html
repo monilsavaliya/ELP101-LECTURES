@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ELP101 Course Material</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Course materials and tutorials for ELP101.">
+    <meta name="author" content="Monil">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+
+    
+    <style>
+    body {
+        background-image: url('https://imgs.search.brave.com/KtDO2B7GVofNI1pTk7NGPAlMNy2N3tswq_s--aT5xyk/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/d2FsbHBhcGVyc2Fm/YXJpLmNvbS80OC82/MC8zcmZKQTUuanBn');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        margin: 0;
+        padding: 0;
+        font-family: 'Roboto', Arial, sans-serif;
+        color: white;
+    }
+
+    h1, h2 {
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    h1 {
+        font-size: 3em;
+        color: #FFD700;
+        text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7), 0 0 20px #FF4500;
+        animation: glow 1.5s infinite alternate;
+        background: linear-gradient(90deg, #FF6347, #FFD700, #32CD32);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    h2 {
+        font-size: 2em;
+    }
+
+    .dropdown {
+        margin: 20px auto;
+        background-color: rgba(255, 255, 255, 0.9);
+        color: #333;
+        border-radius: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        transition: margin-bottom 0.3s ease;
+        width: 90%; /* Adjust width for smaller screens */
+        max-width: 800px; /* Limit the maximum width */
+    }
+
+    .dropdown-header {
+        padding: 12px 20px;
+        font-size: 1.2em;
+        font-weight: bold;
+        background-color: #62a4e9;
+        color: white;
+        cursor: pointer;
+        text-align: center;
+        border-radius: 10px;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .dropdown-header:hover {
+        background-color: #0056b3;
+        transform: scale(1.05);
+    }
+
+    .dropdown-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: rgba(26, 86, 135, 0.8);
+        transition: max-height 0.5s ease;
+    }
+
+    .dropdown-content.open {
+        max-height: 500px;
+        overflow-y: auto;
+    }
+
+    .dropdown-content a {
+        display: block;
+        padding: 10px;
+        color: white;
+        text-decoration: none;
+        text-align: center;
+        background-color: #0a5068;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .dropdown-content a:hover {
+        background-color: #0056b3;
+    }
+
+    .dropdown-content::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .dropdown-content::-webkit-scrollbar-thumb {
+        background-color: #62a4e9;
+        border-radius: 10px;
+    }
+
+    footer {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 14px;
+    }
+
+    /* Media Queries for Responsiveness */
+    @media (max-width: 768px) {
+        .dropdown-header {
+            font-size: 1em; /* Reduce font size for smaller screens */
+        }
+
+        .dropdown-content a {
+            font-size: 0.9em; /* Reduce link size for smaller screens */
+            padding: 8px; /* Reduce padding for smaller screens */
+        }
+
+        h1 {
+            font-size: 2em; /* Adjust heading size for smaller screens */
+        }
+
+        h2 {
+            font-size: 1.5em; /* Adjust subheading size for smaller screens */
+        }
+    }
+</style>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const outerDropdowns = document.querySelectorAll('.dropdown.outer');
+
+            outerDropdowns.forEach(outer => {
+                const outerHeader = outer.querySelector('.dropdown-header');
+                const outerContent = outer.querySelector('.dropdown-content');
+
+                outerHeader.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    const isOpen = outerContent.classList.contains('open');
+                    closeAllDropdowns();
+                    if (!isOpen) {
+                        outerContent.classList.add('open');
+                    }
+                });
+
+                const innerDropdowns = outer.querySelectorAll('.dropdown.inner');
+                innerDropdowns.forEach(inner => {
+                    const innerHeader = inner.querySelector('.dropdown-header');
+                    const innerContent = inner.querySelector('.dropdown-content');
+
+                    innerHeader.addEventListener('click', (event) => {
+                        event.stopPropagation();
+                        const isOpen = innerContent.classList.contains('open');
+                        closeInnerDropdowns(outer);
+                        if (!isOpen) {
+                            innerContent.classList.add('open');
+                        }
+                    });
+
+                    const innerMostDropdowns = inner.querySelectorAll('.dropdown.inner-most');
+                    innerMostDropdowns.forEach(innerMost => {
+                        const innerMostHeader = innerMost.querySelector('.dropdown-header');
+                        const innerMostContent = innerMost.querySelector('.dropdown-content');
+
+                        innerMostHeader.addEventListener('click', (event) => {
+                            event.stopPropagation();
+                            const isOpen = innerMostContent.classList.contains('open');
+                            closeInnerMostDropdowns(inner);
+                            if (!isOpen) {
+                                innerMostContent.classList.add('open');
+                            }
+                        });
+                    });
+                });
+            });
+
+            function closeAllDropdowns() {
+                document.querySelectorAll('.dropdown-content').forEach(content => {
+                    content.classList.remove('open');
+                });
+            }
+
+            function closeInnerDropdowns(outer) {
+                outer.querySelectorAll('.dropdown.inner .dropdown-content').forEach(content => {
+                    content.classList.remove('open');
+                });
+            }
+
+            function closeInnerMostDropdowns(inner) {
+                inner.querySelectorAll('.dropdown.inner-most .dropdown-content').forEach(content => {
+                    content.classList.remove('open');
+                });
+            }
+
+            document.addEventListener('click', () => {
+                closeAllDropdowns();
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1><a href="https://dalla111.github.io/homepage/" ><img src="https://jwalamukhi.iitd.ac.in/images/Jwala_logo_extra_small_2.png" alt="Logo" ></a>ELP101 Course Material/2022 MODE</h1>
+    <div class="container">
+        <div class="section">
+            <div class="dropdown outer">
+                <div class="dropdown-header">LAB MANUALS</div>
+                <div class="dropdown-content">
+                    <a href="https://drive.google.com/file/d/1oZCdA79QnHgUnwGqJF_xf32pBHIqzM6K/view?usp=drive_link">exp1_manual.pdf</a>
+                    <a href="https://drive.google.com/file/d/1hW2zyBOyv_tKZwH6Fe6jB33B3KGL478_/view?usp=drive_link">exp2_manual.pdf</a>
+                    <a href="https://drive.google.com/file/d/1L5CUUrHd04U7BIKYx0iayBbbRqYHGjUO/view?usp=drive_link">exp2_tutorial.pdf</a>
+                    <a href="https://drive.google.com/file/d/1qOOrorw8_lFlGa1O_7BKI2MHWfR5GF1O/view?usp=drive_link">exp3_manual.pdf</a>
+                    <a href="https://drive.google.com/file/d/1K-1A0uiKfCcE6-HI2l3ve1L0sScXqUux/view?usp=drive_link">exp3_tutorial.pdf</a>
+                    <a href="https://drive.google.com/file/d/1xD9RnizPJvqXB_Ig2D0fGEjUrE7hdziS/view?usp=drive_link">exp4_manual.pdf</a>
+                    <a href="https://drive.google.com/file/d/1d0huGiVXSujaBU_YMC4DTR9opeUgyGyJ/view?usp=drive_link">exp4_tutorial.pdf</a>
+                    <a href="https://drive.google.com/file/d/1WYWOmGLH3xqMcco3lwJIX6nHNxbftium/view?usp=drive_link">exp5_manual.pdf</a>
+                    <a href="https://drive.google.com/file/d/12jrtBfHAtudITojOEeYLIWIw0Z-4Uo2J/view?usp=drive_link">exp5_tutorial.pdf</a>
+                    <a href="https://drive.google.com/file/d/1cVSHtGxnu0ycfMoPLycVj8G1D8XTmSxO/view?usp=drive_link">exp6_manual.pdf</a>
+                    <a href="https://drive.google.com/file/d/11r2W2-qHf1kOD_8wOOlkVas1mFovitmY/view?usp=drive_link">exp6_tutorial.pdf</a>
+                    <a href="https://drive.google.com/file/d/1I8CG6bIgsLP5Ogk4SpL4_W4I5eEoi_n-/view?usp=drive_link">exp7_manual.pdf</a>
+                    <a href="https://drive.google.com/file/d/1BQTdLMO96ePgove0BbC5cECBVNxEd-eA/view?usp=drive_link">exp7_tutorial.pdf</a>
+                    <a href="https://drive.google.com/file/d/104Umu4N7SfVZW7kwXwWH8CVkNvySLIyU/view?usp=drive_link">exp8_manual.pdf</a>
+                    <a href="https://drive.google.com/file/d/12caKMBgp6critzbDzAezel2gnT9NQ6bB/view?usp=drive_link">exp8_tutorial.pdf</a>
+                    <a href="https://drive.google.com/file/d/1HePbx45sQytmtN6ZEgnsg-90TUIaTCdV/view?usp=drive_link">NE555P_datasheet.pdf</a>
+                    <a href="https://drive.google.com/file/d/1U65z_2i1z8Ax2BU7U44Qn5kIsJ55WU5s/view?usp=drive_link">OPAMP741_datasheet.pdf</a>
+
+                </div>
+            </div>
+            
+            <div class="dropdown outer">
+                <div class="dropdown-header">LAB WORK</div>
+                <div class="dropdown-content">
+                    <a href="https://drive.google.com/drive/folders/1DL0MNr01UQPNMqzRaEnwCXp4ydyWQ6Sy?usp=drive_link">[Lab 1]</a>
+                    <a href="https://drive.google.com/drive/folders/10LOUYsZzzIxtWHUNIwjP-yrLiZ9Eq94U?usp=drive_link">[Lab 2]</a>
+                    <a href="https://drive.google.com/drive/folders/10HpYZHF7elHJ8X_WL7JQee1PAM7305QM?usp=drive_link">[Lab 3]</a>
+                    <a href="https://drive.google.com/drive/folders/1vcse8jvZL4eBOcPnzD0obE1Yvz1Xra-P?usp=drive_link">[Lab 4]</a>
+                    <a href="https://drive.google.com/drive/folders/1ephuSqaJ8_DqF22MxjcDBmpP6wbSir-Y?usp=drive_link">[Lab 5]</a>
+                    <a href="https://drive.google.com/drive/folders/1glqQISljG3aRdDvGk6Bufyj-anPW0iB5?usp=drive_link">[Lab 6]</a>
+                    <a href="https://drive.google.com/drive/folders/1M8yBG2ymqaxj36ivN4B5hBH5vF1naJpe?usp=drive_link">[Lab 7]</a>
+                    <a href="https://drive.google.com/drive/folders/1vLKLSGAX7DlVgVWwYv2KdSMBpG-aiRc3?usp=drive_link">[Lab 8]</a>
+                    <a href="https://drive.google.com/drive/folders/1l1akuYhajIJdJPp8urfLZt_537FMJUSy?usp=drive_link">[Lab Project]</a>
+                    <a href="https://drive.google.com/file/d/1Uo7S0uVkaYA59NFc-3Aibxgr5Hq-029x/view?usp=drive_link">[ELP Lab Project]</a>
+                    <a href="https://drive.google.com/file/d/1UQEuXYDpJ1a1kCfPfdrdeeuSj2P0htHx/view?usp=drive_link">[ELP Report 1]</a>
+                    <a href="https://drive.google.com/file/d/1edPeWIwPMARaBsan1nuAxYYjUhNq3qZg/view?usp=drive_link">[ELP Report 2]</a>
+                    <a href="https://drive.google.com/file/d/1kVpNXZBv0CqLpX1Yk0cZ4N9C_Vf3nGHr/view?usp=drive_link">[ELP Report 3]</a>
+                    <a href="https://drive.google.com/file/d/1UfBSIhKZw_Jt66CPVz29N9jNocbaYOUB/view?usp=drive_link">[ELP Report 4]</a>
+                    <a href="https://drive.google.com/file/d/1TREDRBiz7seHhGutVLoWj8Ro1mG39sBm/view?usp=drive_link">[ELP Report 5]</a>
+                    <a href="https://drive.google.com/file/d/117_98YLb7OWbcz5lkpBkSW1B-ZYRC_5o/view?usp=drive_link">[ELP Report 6]</a>
+                    <a href="https://drive.google.com/file/d/1vSkU5pd5FSizUqd9IlhENGeVlsYWH-QH/view?usp=drive_link">[ELP Report 7]</a>
+                    <a href="https://drive.google.com/file/d/1EsG43Y9nJV_zWA4C-Ft_I0XoA1otw-O_/view?usp=drive_link">[ELP Report 8]</a>
+
+                </div>
+            </div>
+            <div class="dropdown outer">
+                <div class="dropdown-header">EXAMS</div>
+                <div class="dropdown-content">
+                    
+                            <a href="https://drive.google.com/drive/folders/1pFCbZmtStgjb7wmBscsuSmc2meKxWI2V?usp=drive_link">MAJOT TEST SOLUTIONS SLOT 1 </a>
+                            <a href="https://drive.google.com/drive/folders/1tzjvzgsUusDPVObt3GLp16iU6qinL5CO?usp=drive_link">MAJOT TEST SOLUTIONS SLOT 2</a>
+                            <a href="https://drive.google.com/drive/folders/1GgWVWqTRMHDaN5Lc6DQlmGhvC1GricRd?usp=drive_link">QUIZ</a>
+                </div>
+            </div>
+
+            
+            
+            
+            
+        </div>
+        <footer>
+            <p>&copy; ALL RIGHTS RESERVED 2022 MODE</p>
+            <p><a href="mailto:monilsavaliya416@gmail.com" style="color: white;">Contact for changes</a></p>
+        </footer>
+    </div>
+</body>
+</html>
